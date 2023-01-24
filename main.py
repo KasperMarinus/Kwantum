@@ -340,7 +340,7 @@ subplotter(9)
 subplotter(0)
 
 
-#%% Testing to see if the ISW works as intended and checking our way of finding eigenvectors and integrating
+#%% Testing most things against the ISW (obviously cannot test for varying width of a barrier as there is none, also cannot test integration of the function inside the barrier as, once again, there is none)
 ISW_matrix, ISW_linspace = generate_H_matrix(infinite_square_well_potential, CONST_N, CONST_L, CONST_W, CONST_V)  # generate the matrix for the ISW
 E_ISW, psi_ISW = np.linalg.eigh(ISW_matrix)  # get the eigenenergy and eigenvectors
 
