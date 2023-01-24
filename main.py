@@ -119,20 +119,6 @@ def integrate(f,N,L,W,V,n, eigenfunctions):
     mask_2 = H_matrix[1] > -(W/2)  # look only at the values to the right of the barrier
     func = func[mask_1 & mask_2]  # apply the masks
     return scipy.integrate.cumulative_trapezoid(func, initial=0)[-1]  # integrate the resulting vector
-    
-
-#%% Testing to see if the ISW works as intended and checking our way of finding eigenvectors
-ISW_matrix, ISW_linspace = generate_H_matrix(infinite_square_well_potential, CONST_N, CONST_L, CONST_W, CONST_V)  # generate the matrix for the ISW
-E_ISW, psi_ISW = np.linalg.eigh(ISW_matrix)  # get the eigenenergy and eigenvectors
-# Plot the first 4 eigenfunctions of the ISW
-f = plt.figure()
-for i in range(4):
-    plt.plot(ISW_linspace, psi_ISW[:,i], label=f"Eigenfunction {i+1}")
-plt.xlabel(r"$Position$ (x)")
-plt.ylabel(r"$Value$ $of$ $the$ $wave$ $function$ ($\phi$(x))")
-plt.legend(bbox_to_anchor=(.6,.3))
-f.suptitle("The first four eigenfunctions of the ISW")
-plt.savefig("First four eigenfunctions of the ISW.pdf", dpi=3000, format="pdf", bbox_inches="tight")
 
 
 #%% The eigenenergy as a function of the number of the eigenstate
@@ -352,6 +338,40 @@ def subplotter(n):
 subplotter(19)
 subplotter(9)
 subplotter(0)
+
+
+#%% Testing to see if the ISW works as intended and checking our way of finding eigenvectors and integrating
+ISW_matrix, ISW_linspace = generate_H_matrix(infinite_square_well_potential, CONST_N, CONST_L, CONST_W, CONST_V)  # generate the matrix for the ISW
+E_ISW, psi_ISW = np.linalg.eigh(ISW_matrix)  # get the eigenenergy and eigenvectors
+
+# Plot the first 4 eigenfunctions of the ISW
+f1 = plt.figure()
+for i in range(4):
+    plt.plot(ISW_linspace, psi_ISW[:,i], label=f"Eigenfunction {i+1}")
+plt.xlabel(r"$Position$ (x)")
+plt.ylabel(r"$Value$ $of$ $the$ $wave$ $function$ ($\phi$(x))")
+plt.legend(bbox_to_anchor=(.6,.3))
+f1.suptitle("The first four eigenfunctions of the ISW")
+plt.savefig("First four eigenfunctions of the ISW.pdf", dpi=3000, format="pdf", bbox_inches="tight")
+
+# Do the same for the probability densities
+f2 = plt.figure()
+for i in range(4):
+    plt.plot(ISW_linspace, psi_ISW[:,i]**2, label=f"Eigenfunction {i+1}")
+plt.xlabel(r"$Position$ (x)")
+plt.ylabel(r"$Probability$ $density$ (|$\phi$(x)|$^2$)")
+plt.legend(loc="upper right")
+f2.suptitle("Probability density of the first four eigenfunctions")
+plt.savefig("Probability density first four eigenfunctions ISW.pdf", dpi=3000, format="pdf", bbox_inches="tight")
+
+# Plot the eigenenergy as a function of number of eigenstate
+f3 = plt.figure()
+plt.plot(E_ISW[E_ISW<50_000], 'ko', markersize=.5)
+plt.xlabel(r'$Eigenstate$')
+plt.ylabel(r'$Eigenenergy$ (E$_h$)')
+f3.suptitle("Eigenenergy as a function of number of eigenstate of ISW")
+plt.savefig("Eigenenergy as a function of number of eigenstate of ISW.pdf", dpi=3000, format="pdf", bbox_inches="tight")
+
 
 #%% How long the program took to execute
 print(f"Elapsed time: {time.perf_counter() - start_time}")
