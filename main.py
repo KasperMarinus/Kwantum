@@ -67,11 +67,7 @@ def linear_combination_potential(x,L,W,V):
 
 # Define a potential for a regular infinite square well (for testing purposes)
 def infinite_square_well_potential(x,L,W,V):
-    if -(L/2) < x < L/2:
-        return 0
-    else:
-        return 10_000_000
-    # return 0 if -L/2 < x < L/2 else 100_000
+    return 0 if -L/2 < x < L/2 else 100_000
 
 # Define a function to generate the matrix representation of H for a given function f
 def generate_H_matrix(f,N,L,W,V):
